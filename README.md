@@ -1,0 +1,2 @@
+# ksesh
+Kitty session manager.
