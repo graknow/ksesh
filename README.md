@@ -1,5 +1,5 @@
 # ksesh
-`ksesh` is a simple Rust script to assist with managing kitty session files.
+`ksesh` is a simple Rust script to assist with managing kitty session files.  It allows easy creation, loading, and deletion of session files.
 
 ## Installation
 
@@ -33,4 +33,9 @@ ksesh -L test/load/session
 ```
 
 ### Delete
-WIP
+Deletes session from ~/.config/kitty/sessions/
+
+```
+// Deletes ~/.config/kitty/sessions/delete.kitty
+ksesh -D delete
+```
