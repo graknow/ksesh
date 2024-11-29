@@ -1,6 +1,6 @@
 mod saver;
 
-use std::env;
+use std::{env, fs};
 use std::process::Command;
 use std::str::FromStr;
 
@@ -10,6 +10,7 @@ enum ArgCategory {
     Verbose,
     Save,
     Load,
+    Delete,
 }
 
 impl FromStr for ArgCategory {
@@ -22,6 +23,7 @@ impl FromStr for ArgCategory {
             "-V" | "--verbose" => Ok(ArgCategory::Verbose),
             "-S" | "--save" => Ok(ArgCategory::Save),
             "-L" | "--load" => Ok(ArgCategory::Load),
+            "-D" | "--delete" => Ok(ArgCategory::Delete),
             _ => Err(()),
         }
     }
@@ -36,7 +38,8 @@ fn help() {
     -v, --version   : Displays the version of the software.
     -V, --verbose   : Enable verbosity.
     -S, --save      : Saves the current kitty session to the specified session path.
-    -L, --load      : Loads the specified session to a kitty session.\
+    -L, --load      : Loads the specified session to a kitty session.
+    -D, --delete    : Deletes the specified session file.\
     \n");
 }
 
@@ -54,6 +57,12 @@ fn load(session_path: &str) {
         Ok(_) => println!("Successfully loaded the session."),
         Err(error) => println!("An error occurred while loading! - {error}"),
     }
+}
+
+fn delete(session_path: &str) {
+    let _ = fs::remove_file(
+        format!("{}/.config/kitty/sessions/{}.kitty", env::var("HOME").unwrap(), session_path)
+    );
 }
 
 fn main() {
@@ -87,6 +96,10 @@ fn main() {
                 load(&args[args.len() - 1]);
                 break;
             },
+            ArgCategory::Delete => {
+                delete(&args[args.len() - 1]);
+                break;
+            }
         };
     }
 }
