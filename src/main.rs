@@ -59,8 +59,6 @@ fn load(session_path: &str) {
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let mut verbose: bool = false;
-
     for arg in &args[1..] {
         let category: ArgCategory = match ArgCategory::from_str(arg) {
             Ok(cat) => cat,
@@ -80,7 +78,7 @@ fn main() {
                 version();
                 break;
             },
-            ArgCategory::Verbose => verbose = true,
+            ArgCategory::Verbose => {},
             ArgCategory::Save => {
                 saver::save_session(&args[args.len() - 1]);
                 break;

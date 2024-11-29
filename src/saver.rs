@@ -1,4 +1,4 @@
-use std::fs;
+use std::env;
 use std::fs::File;
 use std::io::Write;
 use std::process::Command;
@@ -52,7 +52,8 @@ fn write_data_to_file(session: &KittySession, relative_session_path: &str) {
     }
 
     let mut file = File::create(
-        format!("/home/grant/.config/kitty/sessions/{relative_session_path}.kitty")
+        format!("{}/.config/kitty/sessions/{}.kitty",
+            env::var("HOME").unwrap(), relative_session_path)
     ).expect("Error creating file!");
 
     let _ = file.write(data.as_bytes()).expect("Error writing data!");
